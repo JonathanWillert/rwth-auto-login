@@ -1,39 +1,3 @@
-async function getStoredLogin() {
-  if (!navigator.credentials || !navigator.credentials.get) {
-    console.warn("Credential Management API not supported");
-    return null;
-  }
-
-  try {
-    // Try to silently fetch a password credential for this origin.
-    // If exactly one exists, it’s returned without prompting.
-    let credential = await navigator.credentials.get({
-      password: true,
-      mediation: "silent", // no UI if more than one choice
-    });
-
-    // If the silent fetch failed (or returned null), you can fall back
-    // to showing the credential picker prompt:
-    if (!credential) {
-      credential = await navigator.credentials.get({
-        password: true,
-        mediation: "optional", // will show the browser‑managed picker
-      });
-    }
-
-    if (credential && credential.type === "password") {
-      // credential.id is the username, credential.password is the password
-      return {
-        username: credential.id,
-        password: credential.password,
-      };
-    }
-  } catch (e) {
-    console.error("Failed to get credentials:", e);
-  }
-  return null;
-}
-
 (async () => {
   const url = window.location.href;
   const host = window.location.host;
@@ -56,7 +20,11 @@ async function getStoredLogin() {
   }
   if (!shouldRun) return;
 
-  const { totpSecret } = await chrome.storage.local.get(["totpSecret"]);
+  const { username, password, totpSecret } = await chrome.storage.local.get([
+    "username",
+    "password",
+    "totpSecret",
+  ]);
 
   // 1) On Moodle homepage: click the SSO login link
   // 1) On the Angular “desktop” page: click the navbar login button
@@ -130,25 +98,17 @@ async function getStoredLogin() {
     return;
   }
 
-  // 4) On SSO page (execution=e1s1): fill creds, store them, then click “Anmeldung”
+  // 4–6) On SSO page (execution=): fill credentials & click “Anmeldung”
   if (url.includes("execution=") && url.includes("s1")) {
-    // 2a) Try browser‑vault first
-    const creds = await getStoredLogin();
-
-    // 2c) Fill the form
     const userInput = document.querySelector('input[name="j_username"]');
     const passInput = document.querySelector('input[name="j_password"]');
-    if (userInput && passInput && creds) {
-      userInput.value = creds.username;
-      passInput.value = creds.password;
-
-      // 2e) Submit the form
-      document.querySelector('button#login[name="_eventId_proceed"]')?.click();
-    } else {
-      // 2b) If no credentials were found, show a warning
-      alert(
-        "No credentials found in the browser vault. Please enter them manually."
+    if (userInput && passInput) {
+      userInput.value = username || "";
+      passInput.value = password || "";
+      const loginBtn = document.querySelector(
+        'button#login[name="_eventId_proceed"]'
       );
+      if (loginBtn) loginBtn.click();
     }
     return;
   }
