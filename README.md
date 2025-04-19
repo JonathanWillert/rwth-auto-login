@@ -50,6 +50,7 @@ All credentials and the TOTP secret are stored locally in Chrome’s storage. Th
 7. Click on **Token Geheimnis** to reveal your Base32 secret.
 8. **Copy** the Token Geheimnis value and paste it into the extension’s **TOTP Secret** field.
 9. On the same page, copy the **Seriennummer** from the first line (optional reference).
+10. If you click on **save** on the options page, it generates a totp and with that you can verify the creation of the new secret on **RWTH Self‑Service**.
 
 > **Note:** Keep your TOTP secret and Seriennummer safe. Anyone with this secret can generate valid codes for your account.
 
