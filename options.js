@@ -39,28 +39,18 @@ async function generateTOTP(secret) {
 
 // ——— Options logic ———
 document.addEventListener("DOMContentLoaded", () => {
-  chrome.storage.local.get(
-    ["username", "password", "totpSecret", "dropdownValue"],
-    (data) => {
-      document.getElementById("username").value = data.username || "";
-      document.getElementById("password").value = data.password || "";
-      document.getElementById("totpSecret").value = data.totpSecret || "";
-      document.getElementById("dropdownValue").value = data.dropdownValue || "";
-    }
-  );
+  chrome.storage.local.get(["totpSecret", "dropdownValue"], (data) => {
+    document.getElementById("totpSecret").value = data.totpSecret || "";
+    document.getElementById("dropdownValue").value = data.dropdownValue || "";
+  });
 });
 
 document.getElementById("save").addEventListener("click", async () => {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value;
   const totpSecret = document.getElementById("totpSecret").value.trim();
   const dropdownValue = document.getElementById("dropdownValue").value.trim();
 
   await new Promise((res) =>
-    chrome.storage.local.set(
-      { username, password, totpSecret, dropdownValue },
-      res
-    )
+    chrome.storage.local.set({ totpSecret, dropdownValue }, res)
   );
 
   // generate & display TOTP
