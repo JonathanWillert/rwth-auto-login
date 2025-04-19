@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "RWTH Auto Login",
+  "version": "1.0",
+  "description": "Automate RWTH SSO login (username/password + TOTP)",
+  "permissions": ["storage", "scripting", "tabs"],
+  "host_permissions": [
+    "https://moodle.rwth-aachen.de/*",
+    "https://online.rwth-aachen.de/*",
+    "https://sso.rwth-aachen.de/*"
+  ],
+  "action": {
+    "default_title": "Auto‑login RWTH Moodle"
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://moodle.rwth-aachen.de/*",
+        "*://online.rwth-aachen.de/*",
+        "*://sso.rwth-aachen.de/*"
+      ],
+      "js": ["content_script.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    },
+    "default_title": "RWTH Moodle Auto Login"
+  }
+}

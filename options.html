@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>RWTH Auto Login – Optionen</title>
+    <style>
+      /* RWTH blue: #35559b */
+      body {
+        font-family: sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background: #35559b;
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+      }
+      .container {
+        max-width: 400px;
+        margin: 2rem auto;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      label {
+        display: block;
+        margin-bottom: 0.75rem;
+      }
+      label span {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      button {
+        background: #35559b;
+        color: #fff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-top: 1rem;
+        width: 100%;
+      }
+      button:hover {
+        background: #35559b;
+      }
+      #totpContainer {
+        margin-top: 1.5rem;
+        font-size: 1.1rem;
+        text-align: center;
+      }
+      #totpDisplay {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>RWTH Auto Login</h1>
+    </header>
+    <div class="container">
+      <label>
+        <span>Username</span>
+        <input type="text" id="username" placeholder="Format: ab123456" />
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" id="password" />
+      </label>
+      <label>
+        <span>Token Secret</span>
+        <input type="text" id="totpSecret" placeholder="JBSWY3DPEHPK3PXP" />
+      </label>
+      <label>
+        <span>Seriennummer</span>
+        <input type="text" id="dropdownValue" placeholder="TOTP66571B35" />
+      </label>
+      <button id="save">Save</button>
+
+      <div id="totpContainer" hidden>
+        Aktueller TOTP: <span id="totpDisplay">‑‑‑</span>
+      </div>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
